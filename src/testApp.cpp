@@ -1,5 +1,6 @@
 #include "testApp.h"
-
+#define DESLOCAMENTO_MAX 15
+#define DEBUG true
 
 
 //--------------------------------------------------------------
@@ -25,11 +26,11 @@ void testApp::update(){
     detectPopulationCollisions();
     detectPlayerCollisions();
     
-    if (simpleHands.size()>0){
-        player.follow(playerDestination);
-    } else {
-        player.follow(ofPoint(mouseX, mouseY));
-    }
+//    if (simpleHands.size()>0){
+//        player.follow(playerDestination);
+//    } else {
+//        player.follow(ofPoint(mouseX, mouseY));
+//    }
 
 
     
@@ -41,7 +42,15 @@ void testApp::update(){
         if (population[i].kill()) {
             population.erase(population.begin()+i);
         } else {
-            population[i].update();
+            if (simpleHands.size()>0){
+                population[i].update(playerDestination);
+            } else {
+                if(DEBUG){
+                    population[i].update(ofPoint(mouseX, mouseY));
+                } else {
+                    population[i].update(ofPoint(0, 0));
+                }
+            }
         }
     }
     
@@ -257,9 +266,10 @@ void testApp::updateHandInformation() {
             Vector normalHand = simpleHands[i].palmNormal();
             float pitch, roll;
             pitch = (hand.pitch()/HALF_PI);
-            roll = normalHand.roll()/HALF_PI;
-            pitch *= 15;
-            roll *= -15;
+            roll = normalHand.roll()/HALF_PI; //Aqui
+            
+            pitch *= -DESLOCAMENTO_MAX;
+            roll *= DESLOCAMENTO_MAX;
             cout << "pitch: "<< pitch << endl;
             cout << "roll: "<< roll << endl;
             playerDestination.x += roll;

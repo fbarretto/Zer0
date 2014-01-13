@@ -57,7 +57,7 @@ void Individuo::draw(){
     }
 }
 
-bool Individuo::update(){
+bool Individuo::update(ofPoint _position){
     if(isActive) {
         //reduce radius according to lifespan
         radius -= (lifespan/10000);
@@ -104,7 +104,7 @@ bool Individuo::update(){
         }
         
         //move to another position
-        move();
+        move(_position);
         
         //decrease lifespan;
         lifespan--;
@@ -122,7 +122,7 @@ void Individuo::start(ofPoint _position){
     }
 }
 
-void Individuo::move(){
+void Individuo::move(ofPoint _position){
     if(isActive){
         if ((ofGetFrameNum()+framecountOffset)%100==0) {
             destination.x=position.x+ofRandom(-100,100);
@@ -131,6 +131,9 @@ void Individuo::move(){
         
         position.x += (destination.x - position.x)*0.01;
         position.y += (destination.y - position.y)*0.01;
+        
+        position.x += (_position.x - position.x)*0.1;
+        position.y += (_position.y - position.y)*0.1;
     }
 }
 

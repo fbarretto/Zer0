@@ -23,7 +23,7 @@ class Individuo{
     Individuo(MidiPlayer *midi);
     Individuo(ofPoint _position);
     void start(ofPoint _position);
-    bool update();
+    bool update(ofPoint _position);
     void draw();
     void reset();
     bool kill();
@@ -32,7 +32,7 @@ class Individuo{
     bool isOffPlayZone();
     bool isOffScreenZone;
     void brownianMove();
-    void move();
+    void move(ofPoint _position);
     
     
     float radius, radiusOffset, radiusLimit, speed,timeOffset;
