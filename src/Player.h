@@ -35,7 +35,7 @@ class Player{
     void follow(ofPoint _position);
     
     
-    float radius, radiusOffset, radiusLimit, speed;
+    float radius, radiusOffset, radiusLimit, speed, timeOffset;
     ofPoint position, offset;
     int pattern[8];
     int patternIndex;

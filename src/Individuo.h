@@ -35,7 +35,7 @@ class Individuo{
     void move();
     
     
-    float radius, radiusOffset, radiusLimit, speed;
+    float radius, radiusOffset, radiusLimit, speed,timeOffset;
     ofPoint position, offset, destination;
     int framecountOffset;
     int pattern[8];

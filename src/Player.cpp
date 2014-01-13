@@ -24,7 +24,7 @@ void Player::setup(){
     //offset;
     baseTime = 10;
     lifespan = 10000;
-    color = 100;
+    color = 255;
     score = 0;
     circleResolution=int(score/25)+2;
     midiNote = 120;
@@ -34,7 +34,7 @@ void Player::setup(){
     }
     pulseCountdown = pattern[0];
     patternIndex=0;
-
+    timeOffset = ofRandom(1000);
 }
 
 void Player::draw(){
@@ -47,16 +47,24 @@ void Player::draw(){
             }
         }
         
-        ofSetLineWidth(2);
+       
         ofEnableAlphaBlending();    // turn on alpha blending
+        
+        ofFill();
+        ofSetColor(color,color, color,50); //sets the color to white
+        ofSetCircleResolution(500);
+        ofCircle(position, radius*2); // draw circle with radius offset
         
         //if player has less than 3 sides, it's a line. Therefore, it has no fill, only a stroke;
         if (circleResolution<3){
+            ofSetLineWidth(2);
             ofNoFill();
         } else {
+            ofSetLineWidth(0);
             ofFill();
         }
-        ofSetColor(color,color, color,255); //sets the color to white with alfa relative to radius to radiusLimit ratio
+
+        ofSetColor(color,color, color,255); //sets the color to white
         ofSetCircleResolution(circleResolution);
         ofCircle(position, radius+radiusOffset); // draw circle with radius offset
         ofDisableAlphaBlending();
@@ -69,6 +77,8 @@ bool Player::update(){
     if(isActive) {
   
         isActive = !(lifespan < 0);
+        
+        radiusOffset = sin(TWO_PI*((int)(timeOffset+ofGetElapsedTimeMillis())%1000)/1000)*5;
         
         //Countdown to generate a new pulse;
         pulseCountdown--;

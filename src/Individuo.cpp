@@ -23,13 +23,16 @@ Individuo::Individuo(MidiPlayer *midi) {
     midiNote = ofRandom(50,120);
     isActive = true;
     framecountOffset=ofRandom(-100,100);
+    
     for (int i=0; i<8; i++) {
         pattern[i] = int(ofRandom(50, 150));
     }
+    
     pulseCountdown = pattern[0];
     patternIndex=0;
     destination.x=position.x+ofRandom(-100,100);
     destination.y=position.y+ofRandom(-100,100);
+    timeOffset = ofRandom(1000);
 }
 
 void Individuo::draw(){
@@ -58,6 +61,9 @@ bool Individuo::update(){
     if(isActive) {
         //reduce radius according to lifespan
         radius -= (lifespan/10000);
+        
+        //updateOffset for pulsing
+        radiusOffset = sin(TWO_PI*((int)(timeOffset+ofGetElapsedTimeMillis())%1000)/1000)*2;
         
         //grow behaviour when first instantiated
         if (radius < radiusLimit) {

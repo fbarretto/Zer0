@@ -3,7 +3,7 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-    populationSize = 20;
+    populationSize = 200;
     for (int i = 0 ; i < populationSize; i++) {
         population.push_back(Individuo(&midi));
     }
@@ -51,11 +51,11 @@ void testApp::draw(){
  
     ofBackground(0,0,0);
     
-    player.draw();
-    
     for(int i = population.size()-1 ; i >= 0; i--){
         population[i].draw();
     }
+    
+    player.draw();
     
 }
 
@@ -103,6 +103,7 @@ void testApp::dragEvent(ofDragInfo dragInfo){
     
 }
 
+//Detect collision between population individuals pulses
 void testApp::detectPopulationCollisions(){
     /*
      circle collision algorithm
@@ -163,6 +164,7 @@ void testApp::detectPopulationCollisions(){
     
 }
 
+//Detect collisions between Player pulses and Individuals pulses;
 void testApp::detectPlayerCollisions(){
     /*
      double xDif = x1 - x2;
