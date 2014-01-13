@@ -3,7 +3,7 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-    populationSize = 200;
+    populationSize = 100;
     for (int i = 0 ; i < populationSize; i++) {
         population.push_back(Individuo(&midi));
     }
@@ -235,6 +235,11 @@ void testApp::exit() {
 	midi.closePort();
     // let's close down Leap and kill the controller
     leap.close();
+    for (int i=0; i<127; i++) {
+        midi.stopNote(i, 1, 100);
+        midi.stopNote(i, 2, 100);
+        cout<<"buffer cleaning"<<endl;
+    }
 }
 
 void testApp::updateHandInformation() {
@@ -252,8 +257,8 @@ void testApp::updateHandInformation() {
             float pitch, roll;
             pitch = (hand.pitch()/HALF_PI);
             roll = normalHand.roll()/HALF_PI;
-            pitch *= 10;
-            roll *= -10;
+            pitch *= 15;
+            roll *= -15;
             cout << "pitch: "<< pitch << endl;
             cout << "roll: "<< roll << endl;
             playerDestination.x += roll;
