@@ -1,7 +1,6 @@
 #include "testApp.h"
 
 
-
 //--------------------------------------------------------------
 void testApp::setup(){
     populationSize = 20;
