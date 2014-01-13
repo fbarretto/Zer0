@@ -10,17 +10,27 @@ void testApp::setup(){
     player.setMidiOut(&midi);
     ofSetFrameRate(30);
     
-  
+    playerDestination=ofPoint(ofGetScreenWidth()/2, ofGetScreenHeight()/2);
+    
+	leap.open();
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-
+    
+    updateHandInformation();
+    
     player.update();
     detectPopulationCollisions();
     detectPlayerCollisions();
     
-    player.follow(ofPoint(mouseX, mouseY));
+    if (simpleHands.size()>0){
+        player.follow(playerDestination);
+    } else {
+        player.follow(ofPoint(mouseX, mouseY));
+    }
+
+
     
     if (population.size()<populationSize){
         population.push_back(Individuo(&midi));
@@ -48,7 +58,7 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
- 
+    
     ofBackground(0,0,0);
     
     for(int i = population.size()-1 ; i >= 0; i--){
@@ -135,7 +145,7 @@ void testApp::detectPopulationCollisions(){
                         for (l = ind2->pulsos.size()-1; l>=0; l--){
                             p2 = &ind2->pulsos.at(l);
                             if (!p2->hasColided) {
-
+                                
                                 xDif = p1->position.x - p2->position.x;
                                 yDif = p1->position.y - p2->position.y;
                                 
@@ -223,4 +233,34 @@ void testApp::detectPlayerCollisions(){
 //--------------------------------------------------------------
 void testApp::exit() {
 	midi.closePort();
+    // let's close down Leap and kill the controller
+    leap.close();
+}
+
+void testApp::updateHandInformation() {
+    simpleHands = leap.getLeapHands();
+    
+    if( leap.isFrameNew() && simpleHands.size()>0 ){
+        
+        leap.setMappingX(-230, 230, -ofGetWidth()/2, ofGetWidth()/2);
+		leap.setMappingY(90, 490, -ofGetHeight()/2, ofGetHeight()/2);
+        leap.setMappingZ(-150, 150, -200, 200);
+        
+        for(int i = 0; i < simpleHands.size(); i++){
+            Vector hand =  simpleHands[i].direction();
+            Vector normalHand = simpleHands[i].palmNormal();
+            float pitch, roll;
+            pitch = (hand.pitch()/HALF_PI);
+            roll = normalHand.roll()/HALF_PI;
+            pitch *= 10;
+            roll *= -10;
+            cout << "pitch: "<< pitch << endl;
+            cout << "roll: "<< roll << endl;
+            playerDestination.x += roll;
+            playerDestination.y += pitch;
+        }
+    }
+    
+	//IMPORTANT! - tell ofxLeapMotion that the frame is no longer new.
+	leap.markFrameAsOld();
 }

@@ -5,6 +5,8 @@
 #include "Individuo.h"
 #include "Player.h"
 #include "MidiPlayer.h"
+#include "ofxLeapMotion.h"
+
 
 
 
@@ -29,13 +31,16 @@ public:
     void exit();
     void updateHandInformation();
     
-    
+    ofPoint playerDestination;
     Pulso myPulse;
     Player player;
     std::vector<Individuo> population;
     int populationSize;
+    
+    
     MidiPlayer midi;
+
     
-  
-    
+    ofxLeapMotion leap;
+	vector <Hand> simpleHands;
 };

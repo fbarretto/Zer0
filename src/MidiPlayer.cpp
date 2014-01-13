@@ -16,14 +16,14 @@ MidiPlayer::MidiPlayer() {
 void MidiPlayer::playNote(int _note, int _channel, int _velocity) {
     int velocity = ofRandom(127);
     midiOut.sendNoteOn(_channel, _note,  velocity);
-    cout<<"midi note on "<<_channel<<endl;
+    //cout<<"midi note on "<<_channel<<endl;
 }
 
 void MidiPlayer::stopNote(int _note, int _channel, int _velocity) {
     
     int velocity = ofRandom(127);
     midiOut.sendNoteOff(_channel, _note,  velocity);
-    cout<<"midi note off"<<endl;
+    //cout<<"midi note off"<<endl;
 }
 
 void MidiPlayer::closePort(){
