@@ -272,8 +272,8 @@ void testApp::updateHandInformation() {
             roll *= DESLOCAMENTO_MAX;
             cout << "pitch: "<< pitch << endl;
             cout << "roll: "<< roll << endl;
-            playerDestination.x += roll;
-            playerDestination.y += pitch;
+            playerDestination.x = roll;
+            playerDestination.y = pitch;
         }
     }
     
