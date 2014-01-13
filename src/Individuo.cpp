@@ -132,8 +132,8 @@ void Individuo::move(ofPoint _position){
         position.x += (destination.x - position.x)*0.01;
         position.y += (destination.y - position.y)*0.01;
         
-        position.x += (_position.x - position.x)*0.1;
-        position.y += (_position.y - position.y)*0.1;
+        position.x += _position.x;
+        position.y += _position.y;
     }
 }
 

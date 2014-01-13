@@ -35,6 +35,7 @@ void Player::setup(){
     pulseCountdown = pattern[0];
     patternIndex=0;
     timeOffset = ofRandom(1000);
+    position = ofPoint(ofGetScreenWidth()/2, ofGetScreenHeight()/2);
 }
 
 void Player::draw(){
