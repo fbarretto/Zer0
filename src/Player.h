@@ -20,6 +20,7 @@ class Player{
     
     Player();
     Player(ofPoint _position);
+    void setup();
     void setMidiOut(MidiPlayer *midi);
     void start(ofPoint _position);
     bool update();

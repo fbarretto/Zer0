@@ -15,11 +15,7 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
-    //myPulse.update();
-    //if(myPulse.kill()){
-    //    cout << "Time to kill" << endl;
-    //myPulse.reset();
-    //}
+
     player.update();
     detectPopulationCollisions();
     detectPlayerCollisions();
@@ -52,7 +48,7 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    //myPulse.draw();
+ 
     ofBackground(0,0,0);
     
     player.draw();
@@ -84,8 +80,6 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-    //myPulse.start(ofPoint(x, y), 1);
-    //ind.start(ofPoint(x, y));
     population.push_back(Individuo(&midi));
 }
 
@@ -111,11 +105,14 @@ void testApp::dragEvent(ofDragInfo dragInfo){
 
 void testApp::detectPopulationCollisions(){
     /*
+     circle collision algorithm
+     
      double xDif = x1 - x2;
      double yDif = y1 - y2;
      double distanceSquared = xDif * xDif + yDif * yDif;
      boolean collision = distanceSquared < (radius1 + radius2) * (radius1 + radius2);
      */
+    
     Individuo *ind1, *ind2;
     Pulso *p1, *p2;
     double yDif, xDif;

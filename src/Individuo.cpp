@@ -15,7 +15,6 @@ Individuo::Individuo(MidiPlayer *midi) {
     radiusLimit = ofRandom(5,25);
     radiusOffset=10;
     position = ofPoint(ofRandomWidth(),ofRandomHeight());
-    //offset;
     baseTime = 10;
     lifespan = ofRandom(700,1200);
     color = ofRandom(0,255);
@@ -29,21 +28,22 @@ Individuo::Individuo(MidiPlayer *midi) {
     }
     pulseCountdown = pattern[0];
     patternIndex=0;
-    // destination=ofPoint(ofRandomWidth(), ofRandomHeight());
     destination.x=position.x+ofRandom(-100,100);
     destination.y=position.y+ofRandom(-100,100);
 }
 
 void Individuo::draw(){
-    //std::cout << lifespan<<endl;
+    
     if(isActive) {
+        
+        //draw pulses, if any
         if (pulsos.size()>0) {
             for(int i = pulsos.size()-1 ; i >=0; i--){
                 pulsos[i].draw();
-                //std::cout << "draw pulse"<<endl;
             }
-            
         }
+        
+        //draw Individual
         ofEnableAlphaBlending();    // turn on alpha blending
         ofColor c = ofColor::fromHsb(color,255,255,int(255*(lifespan/1000)));
         ofSetColor(c);
@@ -56,51 +56,52 @@ void Individuo::draw(){
 
 bool Individuo::update(){
     if(isActive) {
-        //        std::cout << "is active"<<endl;
+        //reduce radius according to lifespan
         radius -= (lifespan/10000);
+        
+        //grow behaviour when first instantiated
         if (radius < radiusLimit) {
             radius +=0.5;
         }
         
         isActive = !(lifespan < 0);
         
-        //position.x += (ofRandomWidth() - position.x)*0.1;
-        //position.y += (ofRandomHeight() - position.y)*0.1;
         
-        
+        //decrease countdown for a new pulse
         pulseCountdown--;
-        //std::cout << "countdown " << pulseCountdown<<endl;
-        //std::cout << "pulses " << pulsos.size()<<endl;
+        
+        //update pulses if any
         if (pulsos.size()>0) {
             for(int i = pulsos.size()-1 ; i >=0; i--){
+                //remove pulse if dead, update all others
                 if (pulsos[i].kill()) {
                     pulsos.erase(pulsos.begin()+i);
-                    //std::cout << "dead pulse " << pulsos.size()<<endl;
                 } else {
                     pulsos[i].update(position);
-                    //                    std::cout << "update pulse " << pulsos.size()<<endl;
                 }
             }
         }
         
+         //If it's time for a new pulse, create a new pulse and add to vector. Stop last playing note.
         if (pulseCountdown==0) {
             Pulso p = Pulso(position,1+(lifespan/1000), radius*4, color);
-            //            p.start(position,1);
             pulsos.push_back(p);
-                myMidi->stopNote(midiNote,1,100);
-         //   MidiPlayer::stopNote(midiNote);
-            //std::cout << "added pulse " << pulsos.size()<<endl;
+            myMidi->stopNote(midiNote,1,100);
+            
+            //get new countdown pattern index;
             patternIndex++;
             if (patternIndex>7) {
                 patternIndex=0;
             }
+            //set new countdown for a new pulse
             pulseCountdown=pattern[patternIndex];
         }
-        move();
-        lifespan--;
-        //if (lifespan<0)
-        //std::cout << "dead!" <<endl;
         
+        //move to another position
+        move();
+        
+        //decrease lifespan;
+        lifespan--;
     }
     
     return isActive;
@@ -128,21 +129,16 @@ void Individuo::move(){
 }
 
 void Individuo::reset(){
-    
     radius = 0; //reset radius here
-    
 }
 
 void Individuo::playNote(float velocity) {
-    //cout<<"play note, dude!"<<endl;
-  //  MidiPlayer::playNote(midiNote);
     myMidi->playNote(midiNote,1, velocity*127);
     score++;
     lifespan+=10;
-    circleResolution=score/25+2;
+    circleResolution=score/25+2; //increase circle resolution as it scores with interactions
 }
 
 bool Individuo::kill(){
-    //cout<<isActive<<endl;
     return (!isActive); // verify if the radius exceedes the limit and is not active
 }
