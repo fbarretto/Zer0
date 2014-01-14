@@ -19,7 +19,7 @@ Player::Player() {
 }
 
 void Player::setup(){
-    radius = 30;
+    radius = 35;
     radiusLimit = 100;
     radiusOffset=10;
     //offset;
@@ -65,13 +65,24 @@ void Player::draw(){
             ofSetLineWidth(0);
             ofFill();
         }
-
+        
+        if (circleResolution<3) {
+            ofPushMatrix();
+            ofTranslate(ofGetScreenWidth()/2, ofGetScreenHeight()/2, 0);
+            ofRotateZ(-45);
+            ofSetColor(color,color, color,255); //sets the color to white
+            ofSetCircleResolution(circleResolution);
+            ofCircle((offset), radius+radiusOffset); // draw circle with radius offset
+            ofDisableAlphaBlending();
+            ofSetLineWidth(1);
+            ofPopMatrix();
+        } else {
         ofSetColor(color,color, color,255); //sets the color to white
         ofSetCircleResolution(circleResolution);
         ofCircle((position+offset), radius+radiusOffset); // draw circle with radius offset
         ofDisableAlphaBlending();
         ofSetLineWidth(1);
-        
+        }
     }
 }
 
@@ -138,7 +149,8 @@ void Player::follow(ofPoint _position){
 }
 
 void Player::reset(){
-    radius = 0; //reset radius here
+    score = 0; //reset radius here
+    circleResolution = int(score/25)+2;
 }
 
 bool Player::kill(){

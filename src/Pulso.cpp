@@ -13,7 +13,7 @@ Pulso::Pulso(){
     radiusLimit = 100; //initial limit of radius is set here
     isActive = true;
     radius = 0;
-    speed = 1;
+    speed = 1+ofRandom(1);
     hasColided=false;
 }
 

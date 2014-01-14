@@ -6,15 +6,22 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     populationSize = 100;
-    for (int i = 0 ; i < populationSize; i++) {
-        population.push_back(Individuo(&midi));
-    }
+    //for (int i = 0 ; i < populationSize/4; i++) {
+    //    population.push_back(Individuo(&midi));
+    //}
     player.setMidiOut(&midi);
     ofSetFrameRate(30);
     
     playerDestination=ofPoint(ofGetScreenWidth()/2, ofGetScreenHeight()/2);
     
 	leap.open();
+    
+    // in setup:
+    ofTrueTypeFont::setGlobalDpi(72);
+    myfont.loadFont("post_pixel-7.ttf", 80);
+    myfont.setLineHeight(80.0f);
+	myfont.setLetterSpacing(1.037);
+    noHandCountdown = 800;
 }
 
 //--------------------------------------------------------------
@@ -28,8 +35,20 @@ void testApp::update(){
     
     if (simpleHands.size()>0){
         player.follow(playerDestination);
+        if (noHandCountdown<=800){
+            noHandCountdown+=10;
+        }
     } else {
         player.follow(ofPoint(0, 0));
+        if ((population.size()<populationSize*0.25) && (noHandCountdown>0)){
+            noHandCountdown--;
+        }
+    }
+    
+    
+    if (noHandCountdown==0){
+        player.reset();
+        cout << noHandCountdown<<endl;
     }
 
     
@@ -74,7 +93,12 @@ void testApp::draw(){
         population[i].draw();
     }
     
+        float alpha = 1- (float(noHandCountdown)/800);
+        ofSetColor(225,255,255,alpha*255);
+        myfont.drawString("Zer", ofGetScreenWidth()/2-(player.radius*2)-115,ofGetScreenHeight()/2+myfont.getLineHeight()*.7);
+    
     player.draw();
+   
     
 }
 

@@ -5,19 +5,19 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>15BF1556-6599-4841-95D7-365E325BB11F</string>
+	<string>A824B524-601A-47C2-A7D0-11998C12E809</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Zer0</string>
+	<string>zer0</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>0D810936-9998-4647-AA52-59128313B361</key>
+		<key>5489E908-11E1-49D4-AD64-CFE418B547BA</key>
 		<string>https://github.com/fbarretto/Zer0.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Zer0.xcodeproj/project.xcworkspace</string>
+	<string>zer0.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>0D810936-9998-4647-AA52-59128313B361</key>
+		<key>5489E908-11E1-49D4-AD64-CFE418B547BA</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>0D810936-9998-4647-AA52-59128313B361</string>
+	<string>5489E908-11E1-49D4-AD64-CFE418B547BA</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>0D810936-9998-4647-AA52-59128313B361</string>
+			<string>5489E908-11E1-49D4-AD64-CFE418B547BA</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Zer0</string>
 		</dict>

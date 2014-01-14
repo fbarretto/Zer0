@@ -37,7 +37,9 @@ public:
     Player player;
     std::vector<Individuo> population;
     int populationSize;
+    int noHandCountdown;
     
+    ofTrueTypeFont myfont;
     
     MidiPlayer midi;
 
