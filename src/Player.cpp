@@ -7,6 +7,7 @@
 //
 
 #include "Player.h"
+#define DESLOCAMENTO_MAX 15
 
 Player::Player(ofPoint _position) {
     position = _position;
@@ -67,7 +68,7 @@ void Player::draw(){
 
         ofSetColor(color,color, color,255); //sets the color to white
         ofSetCircleResolution(circleResolution);
-        ofCircle(position, radius+radiusOffset); // draw circle with radius offset
+        ofCircle((position+offset), radius+radiusOffset); // draw circle with radius offset
         ofDisableAlphaBlending();
         ofSetLineWidth(1);
         
@@ -91,7 +92,7 @@ bool Player::update(){
                 if (pulsos[i].kill()) {
                     pulsos.erase(pulsos.begin()+i);
                 } else {
-                    pulsos[i].update(position);
+                    pulsos[i].update((position+offset));
                 }
             }
         }
@@ -130,8 +131,9 @@ void Player::start(ofPoint _position){
 //follow behaviour
 void Player::follow(ofPoint _position){
     if(isActive){
-        position.x += (_position.x - position.x)*0.1;
-        position.y += (_position.y - position.y)*0.1;
+        offset=_position;
+        offset /= sqrt(offset.x*offset.x+offset.y*offset.y); // normalize the vector
+        offset *= -DESLOCAMENTO_MAX;
     }
 }
 

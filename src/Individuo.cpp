@@ -14,9 +14,9 @@ Individuo::Individuo(MidiPlayer *midi) {
     radius = 0;
     radiusLimit = ofRandom(5,25);
     radiusOffset=10;
-    position = ofPoint(ofRandomWidth(),ofRandomHeight());
+    position = ofPoint(ofRandom(-ofGetScreenWidth(), ofGetScreenWidth()),ofRandom(-ofGetScreenHeight(), ofGetScreenHeight()));
     baseTime = 10;
-    lifespan = ofRandom(700,1200);
+    lifespan = ofRandom(600,1200);
     color = ofRandom(0,255);
     circleResolution = int(ofRandom(2,15));
     score = ofRandom(25,100);
@@ -37,7 +37,7 @@ Individuo::Individuo(MidiPlayer *midi) {
 
 void Individuo::draw(){
     
-    if(isActive) {
+    if(isActive && !isOffScreen) {
         
         //draw pulses, if any
         if (pulsos.size()>0) {
@@ -88,7 +88,7 @@ bool Individuo::update(ofPoint _position){
             }
         }
         
-         //If it's time for a new pulse, create a new pulse and add to vector. Stop last playing note.
+        //If it's time for a new pulse, create a new pulse and add to vector. Stop last playing note.
         if (pulseCountdown==0) {
             Pulso p = Pulso(position,1+(lifespan/1000), radius*4, color);
             pulsos.push_back(p);
@@ -107,7 +107,11 @@ bool Individuo::update(ofPoint _position){
         move(_position);
         
         //decrease lifespan;
-        lifespan--;
+        if (isOffPlayZone) {
+            lifespan-=5;
+        } else{
+            lifespan--;
+        }
     }
     
     return isActive;
@@ -134,6 +138,21 @@ void Individuo::move(ofPoint _position){
         
         position.x += _position.x;
         position.y += _position.y;
+        
+        isOffPlayZone = false;
+        isOffScreen = false;
+        
+        if ( (position.x < (-1*ofGetScreenWidth())) || (position.x > (2*ofGetScreenWidth())) ||
+            (position.y < (-1*ofGetScreenHeight())) || (position.x > (2*ofGetScreenHeight()))){
+            isOffPlayZone = true;
+        }
+        
+        if ( (position.x < 0) || (position.x > ofGetScreenWidth()) ||
+            (position.y < 0) || (position.x > ofGetScreenHeight())){
+            isOffScreen = true;
+            
+        }
+        
     }
 }
 
@@ -142,12 +161,17 @@ void Individuo::reset(){
 }
 
 void Individuo::playNote(float velocity) {
-    myMidi->playNote(midiNote,1, velocity*127);
-    score++;
-    lifespan+=10;
-    circleResolution=score/25+2; //increase circle resolution as it scores with interactions
+    if (!isOffScreen) {
+        myMidi->playNote(midiNote,1, velocity*127);
+        score++;
+        lifespan+=10;
+        circleResolution=score/25+2; //increase circle resolution as it scores with interactions
+    }
 }
 
 bool Individuo::kill(){
+    if (!isActive) {
+        myMidi->stopNote(midiNote,1,100);
+    }
     return (!isActive); // verify if the radius exceedes the limit and is not active
 }

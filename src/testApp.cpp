@@ -26,15 +26,14 @@ void testApp::update(){
     detectPopulationCollisions();
     detectPlayerCollisions();
     
-//    if (simpleHands.size()>0){
-//        player.follow(playerDestination);
-//    } else {
-//        player.follow(ofPoint(mouseX, mouseY));
-//    }
-
+    if (simpleHands.size()>0){
+        player.follow(playerDestination);
+    } else {
+        player.follow(ofPoint(0, 0));
+    }
 
     
-    if (population.size()<populationSize){
+    if ((population.size()<populationSize) && (ofRandom(1)>0.5)){
         population.push_back(Individuo(&midi));
     }
     

@@ -29,9 +29,6 @@ class Individuo{
     bool kill();
     void generatePulse();
     void playNote(float velocity);
-    bool isOffPlayZone();
-    bool isOffScreenZone;
-    void brownianMove();
     void move(ofPoint _position);
     
     
@@ -49,6 +46,8 @@ class Individuo{
     int midiNote;
     std::vector<Pulso> pulsos;
     bool isActive;
+    bool isOffScreen;
+    bool isOffPlayZone;
     MidiPlayer* myMidi;
     
 };
