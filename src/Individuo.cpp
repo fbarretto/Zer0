@@ -108,7 +108,7 @@ bool Individuo::update(ofPoint _position){
         
         //decrease lifespan;
         if (isOffPlayZone) {
-            lifespan-=5;
+            lifespan-=10;
         } else{
             lifespan--;
         }
@@ -145,10 +145,10 @@ void Individuo::move(ofPoint _position){
         if ( (position.x < (-1*ofGetScreenWidth())) || (position.x > (2*ofGetScreenWidth())) ||
             (position.y < (-1*ofGetScreenHeight())) || (position.x > (2*ofGetScreenHeight()))){
             isOffPlayZone = true;
-        }
+        } 
         
         if ( (position.x < 0) || (position.x > ofGetScreenWidth()) ||
-            (position.y < 0) || (position.x > ofGetScreenHeight())){
+            (position.y < 0) || (position.y > ofGetScreenHeight())){
             isOffScreen = true;
             
         }

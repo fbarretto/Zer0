@@ -1,6 +1,6 @@
 #include "testApp.h"
 #define DESLOCAMENTO_MAX 15
-#define DEBUG true
+#define DEBUG false
 
 
 //--------------------------------------------------------------
@@ -33,7 +33,7 @@ void testApp::update(){
     }
 
     
-    if ((population.size()<populationSize) && (ofRandom(1)>0.5)){
+    if ((population.size()<populationSize) && (ofRandom(1)>0.5) && simpleHands.size()>0){
         population.push_back(Individuo(&midi));
     }
     
@@ -269,8 +269,9 @@ void testApp::updateHandInformation() {
             
             pitch *= -DESLOCAMENTO_MAX;
             roll *= DESLOCAMENTO_MAX;
-            cout << "pitch: "<< pitch << endl;
-            cout << "roll: "<< roll << endl;
+            
+            //cout << "pitch: "<< pitch << endl;
+            //cout << "roll: "<< roll << endl;
             playerDestination.x = roll;
             playerDestination.y = pitch;
         }
